@@ -32,8 +32,10 @@ data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
 locals {
-  name   = basename(path.cwd)
-  region = "ap-southeast-1"
+  name = basename(path.cwd)
+  # var.cluster_name is for Terratest
+  cluster_name = coalesce(var.cluster_name, local.name)
+  region       = "ap-southeast-1"
 
   vpc_cidr = "10.0.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
@@ -61,6 +63,8 @@ module "eks_blueprints" {
     mg_5 = {
       node_group_name = "managed-ondemand"
       instance_types  = ["m5.large"]
+      min_size        = 3
+      max_size        = 3
       desired_size    = 3
       subnet_ids      = module.vpc.private_subnets
     }
@@ -114,7 +118,20 @@ module "eks_blueprints_kubernetes_addons" {
   # Add-ons
   enable_aws_load_balancer_controller = false
   enable_metrics_server               = false
-  enable_cluster_autoscaler           = false
+  enable_aws_cloudwatch_metrics       = false
+  enable_kubecost                     = false
+  enable_gatekeeper                   = false
+
+  enable_cluster_autoscaler = false
+  cluster_autoscaler_helm_config = {
+    set = [
+      {
+        name  = "podLabels.prometheus\\.io/scrape",
+        value = "true",
+        type  = "string",
+      }
+    ]
+  }
 
   enable_cert_manager = true
   cert_manager_helm_config = {
@@ -125,10 +142,11 @@ module "eks_blueprints_kubernetes_addons" {
       },
     ]
   }
+  # TODO - requires dependency on `cert-manager` for namespace
+  # enable_cert_manager_csi_driver = true
 
   tags = local.tags
 }
-
 
 #---------------------------------------------------------------
 # Supporting Resources
