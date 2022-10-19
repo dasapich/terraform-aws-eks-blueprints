@@ -15,6 +15,12 @@ variable "eks_worker_security_group_id" {
   default     = ""
 }
 
+variable "data_plane_wait_arn" {
+  description = "Addon deployment will not proceed until this value is known. Set to node group/Fargate profile ARN to wait for data plane to be ready before provisioning addons"
+  type        = string
+  default     = ""
+}
+
 variable "auto_scaling_group_names" {
   description = "List of self-managed node groups autoscaling group names"
   type        = list(string)
@@ -93,6 +99,25 @@ variable "self_managed_coredns_helm_config" {
   type        = any
   default     = {}
 }
+
+variable "remove_default_coredns_deployment" {
+  description = "Determines whether the default deployment of CoreDNS is removed and ownership of kube-dns passed to Helm"
+  type        = bool
+  default     = false
+}
+
+variable "enable_coredns_cluster_proportional_autoscaler" {
+  description = "Enable cluster-proportional-autoscaler for CoreDNS"
+  type        = bool
+  default     = true
+}
+
+variable "coredns_cluster_proportional_autoscaler_helm_config" {
+  description = "Helm provider config for the CoreDNS cluster-proportional-autoscaler"
+  default     = {}
+  type        = any
+}
+
 
 variable "amazon_eks_kube_proxy_config" {
   description = "ConfigMap for Amazon EKS Kube-Proxy add-on"
@@ -574,6 +599,12 @@ variable "aws_for_fluentbit_irsa_policies" {
   default     = []
 }
 
+variable "aws_for_fluentbit_create_cw_log_group" {
+  description = "Set to false to use existing CloudWatch log group supplied via the cw_log_group_name variable."
+  type        = bool
+  default     = true
+}
+
 variable "aws_for_fluentbit_cw_log_group_name" {
   description = "FluentBit CloudWatch Log group name"
   type        = string
@@ -659,6 +690,24 @@ variable "cert_manager_letsencrypt_email" {
   description = "Email address for expiration emails from Let's Encrypt"
   type        = string
   default     = ""
+}
+
+variable "enable_cert_manager_csi_driver" {
+  description = "Enable Cert Manager CSI Driver add-on"
+  type        = bool
+  default     = false
+}
+
+variable "cert_manager_csi_driver_helm_config" {
+  description = "Cert Manager CSI Driver Helm Chart config"
+  type        = any
+  default     = {}
+}
+
+variable "cert_manager_kubernetes_svc_image_pull_secrets" {
+  description = "list(string) of kubernetes imagePullSecrets"
+  type        = list(string)
+  default     = []
 }
 
 #-----------Argo Rollouts ADDON-------------
@@ -1026,6 +1075,19 @@ variable "kuberay_operator_helm_config" {
   default     = {}
 }
 
+#----------- Reloader Addon-------------
+variable "enable_reloader" {
+  description = "Enable Reloader add-on"
+  type        = bool
+  default     = false
+}
+
+variable "reloader_helm_config" {
+  description = "Reloader Helm Chart config"
+  type        = any
+  default     = {}
+}
+
 #-----------Apache Airflow ADDON-------------
 variable "enable_airflow" {
   description = "Enable Airflow add-on"
@@ -1076,4 +1138,144 @@ variable "kubecost_helm_config" {
   description = "Kubecost Helm Chart config"
   type        = any
   default     = {}
+}
+
+#-----------Kyverno ADDON-------------
+
+variable "enable_kyverno" {
+  description = "Enable Kyverno add-on"
+  type        = bool
+  default     = false
+}
+
+variable "enable_kyverno_policies" {
+  description = "Enable Kyverno policies. Requires `enable_kyverno` to be `true`"
+  type        = bool
+  default     = false
+}
+
+variable "enable_kyverno_policy_reporter" {
+  description = "Enable Kyverno UI. Requires `enable_kyverno` to be `true`"
+  type        = bool
+  default     = false
+}
+
+variable "kyverno_helm_config" {
+  description = "Kyverno Helm Chart config"
+  type        = any
+  default     = {}
+}
+
+variable "kyverno_policies_helm_config" {
+  description = "Kyverno policies Helm Chart config"
+  type        = any
+  default     = {}
+}
+
+variable "kyverno_policy_reporter_helm_config" {
+  description = "Kyverno UI Helm Chart config"
+  type        = any
+  default     = {}
+}
+
+#-----------SMB CSI driver ADDON-------------
+variable "enable_smb_csi_driver" {
+  description = "Enable SMB CSI driver add-on"
+  type        = bool
+  default     = false
+}
+
+variable "smb_csi_driver_helm_config" {
+  description = "SMB CSI driver Helm Chart config"
+  type        = any
+  default     = {}
+}
+
+
+#-----------Chaos Mesh ADDON-------------
+variable "enable_chaos_mesh" {
+  description = "Enable Chaos Mesh add-on"
+  type        = bool
+  default     = false
+}
+
+variable "chaos_mesh_helm_config" {
+  description = "Chaos Mesh Helm Chart config"
+  type        = any
+  default     = {}
+}
+
+#-----------Cilium ADDON-------------
+variable "enable_cilium" {
+  description = "Enable Cilium add-on"
+  type        = bool
+  default     = false
+}
+
+variable "cilium_helm_config" {
+  description = "Cilium Helm Chart config"
+  type        = any
+  default     = {}
+
+}
+
+#-----------Gatekeeper ADDON-------------
+variable "enable_gatekeeper" {
+  description = "Enable Gatekeeper add-on"
+  type        = bool
+  default     = false
+}
+
+variable "gatekeeper_helm_config" {
+  description = "Gatekeeper Helm Chart config"
+  type        = any
+  default     = {}
+}
+
+
+
+#-----------Kubernetes Portworx ADDON-------------
+variable "enable_portworx" {
+  description = "Enable Kubernetes Dashboard add-on"
+  type        = bool
+  default     = false
+}
+
+variable "portworx_helm_config" {
+  description = "Kubernetes Portworx Helm Chart config"
+  type        = any
+  default     = null
+}
+
+#-----------Local volume provisioner ADDON-------------
+variable "enable_local_volume_provisioner" {
+  description = "Enable Local volume provisioner add-on"
+  type        = bool
+  default     = false
+}
+
+variable "local_volume_provisioner_helm_config" {
+  description = "Local volume provisioner Helm Chart config"
+  type        = any
+  default     = {}
+}
+
+#-----------NVIDIA DEVICE PLUGIN-----------------------
+variable "enable_nvidia_device_plugin" {
+  description = "Enable NVIDIA device plugin add-on"
+  type        = bool
+  default     = false
+}
+
+variable "nvidia_device_plugin_helm_config" {
+  description = "NVIDIA device plugin Helm Chart config"
+  type        = any
+  default     = {}
+}
+
+#-----------App 2048-----------------------
+variable "enable_app_2048" {
+  description = "Enable sample app 2048"
+  type        = bool
+  default     = false
 }
