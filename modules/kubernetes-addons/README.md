@@ -53,6 +53,7 @@
 | <a name="module_crossplane"></a> [crossplane](#module\_crossplane) | ./crossplane | n/a |
 | <a name="module_csi_secrets_store_provider_aws"></a> [csi\_secrets\_store\_provider\_aws](#module\_csi\_secrets\_store\_provider\_aws) | ./csi-secrets-store-provider-aws | n/a |
 | <a name="module_datadog_operator"></a> [datadog\_operator](#module\_datadog\_operator) | ./datadog-operator | n/a |
+| <a name="module_emr_on_eks"></a> [emr\_on\_eks](#module\_emr\_on\_eks) | ./emr-on-eks | n/a |
 | <a name="module_external_dns"></a> [external\_dns](#module\_external\_dns) | ./external-dns | n/a |
 | <a name="module_external_secrets"></a> [external\_secrets](#module\_external\_secrets) | ./external-secrets | n/a |
 | <a name="module_fargate_fluentbit"></a> [fargate\_fluentbit](#module\_fargate\_fluentbit) | ./fargate-fluentbit | n/a |
@@ -151,6 +152,7 @@
 | <a name="input_cert_manager_kubernetes_svc_image_pull_secrets"></a> [cert\_manager\_kubernetes\_svc\_image\_pull\_secrets](#input\_cert\_manager\_kubernetes\_svc\_image\_pull\_secrets) | list(string) of kubernetes imagePullSecrets | `list(string)` | `[]` | no |
 | <a name="input_cert_manager_letsencrypt_email"></a> [cert\_manager\_letsencrypt\_email](#input\_cert\_manager\_letsencrypt\_email) | Email address for expiration emails from Let's Encrypt | `string` | `""` | no |
 | <a name="input_chaos_mesh_helm_config"></a> [chaos\_mesh\_helm\_config](#input\_chaos\_mesh\_helm\_config) | Chaos Mesh Helm Chart config | `any` | `{}` | no |
+| <a name="input_cilium_enable_wireguard"></a> [cilium\_enable\_wireguard](#input\_cilium\_enable\_wireguard) | Enable wiregaurd encryption | `bool` | `false` | no |
 | <a name="input_cilium_helm_config"></a> [cilium\_helm\_config](#input\_cilium\_helm\_config) | Cilium Helm Chart config | `any` | `{}` | no |
 | <a name="input_cluster_autoscaler_helm_config"></a> [cluster\_autoscaler\_helm\_config](#input\_cluster\_autoscaler\_helm\_config) | Cluster Autoscaler Helm Chart config | `any` | `{}` | no |
 | <a name="input_coredns_autoscaler_helm_config"></a> [coredns\_autoscaler\_helm\_config](#input\_coredns\_autoscaler\_helm\_config) | CoreDNS Autoscaler Helm Chart config | `any` | `{}` | no |
@@ -158,6 +160,7 @@
 | <a name="input_crossplane_aws_provider"></a> [crossplane\_aws\_provider](#input\_crossplane\_aws\_provider) | AWS Provider config for Crossplane | <pre>object({<br>    enable                   = bool<br>    provider_aws_version     = string<br>    additional_irsa_policies = list(string)<br>  })</pre> | <pre>{<br>  "additional_irsa_policies": [],<br>  "enable": false,<br>  "provider_aws_version": "v0.24.1"<br>}</pre> | no |
 | <a name="input_crossplane_helm_config"></a> [crossplane\_helm\_config](#input\_crossplane\_helm\_config) | Crossplane Helm Chart config | `any` | `null` | no |
 | <a name="input_crossplane_jet_aws_provider"></a> [crossplane\_jet\_aws\_provider](#input\_crossplane\_jet\_aws\_provider) | AWS Provider Jet AWS config for Crossplane | <pre>object({<br>    enable                   = bool<br>    provider_aws_version     = string<br>    additional_irsa_policies = list(string)<br>  })</pre> | <pre>{<br>  "additional_irsa_policies": [],<br>  "enable": false,<br>  "provider_aws_version": "v0.24.1"<br>}</pre> | no |
+| <a name="input_crossplane_kubernetes_provider"></a> [crossplane\_kubernetes\_provider](#input\_crossplane\_kubernetes\_provider) | Kubernetes Provider config for Crossplane | <pre>object({<br>    enable                      = bool<br>    provider_kubernetes_version = string<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "provider_kubernetes_version": "v0.4.1"<br>}</pre> | no |
 | <a name="input_csi_secrets_store_provider_aws_helm_config"></a> [csi\_secrets\_store\_provider\_aws\_helm\_config](#input\_csi\_secrets\_store\_provider\_aws\_helm\_config) | CSI Secrets Store Provider AWS Helm Configurations | `any` | `null` | no |
 | <a name="input_custom_image_registry_uri"></a> [custom\_image\_registry\_uri](#input\_custom\_image\_registry\_uri) | Custom image registry URI map of `{region = dkr.endpoint }` | `map(string)` | `{}` | no |
 | <a name="input_data_plane_wait_arn"></a> [data\_plane\_wait\_arn](#input\_data\_plane\_wait\_arn) | Addon deployment will not proceed until this value is known. Set to node group/Fargate profile ARN to wait for data plane to be ready before provisioning addons | `string` | `""` | no |
@@ -167,7 +170,9 @@
 | <a name="input_eks_cluster_id"></a> [eks\_cluster\_id](#input\_eks\_cluster\_id) | EKS Cluster Id | `string` | n/a | yes |
 | <a name="input_eks_cluster_version"></a> [eks\_cluster\_version](#input\_eks\_cluster\_version) | The Kubernetes version for the cluster | `string` | `null` | no |
 | <a name="input_eks_oidc_provider"></a> [eks\_oidc\_provider](#input\_eks\_oidc\_provider) | The OpenID Connect identity provider (issuer URL without leading `https://`) | `string` | `null` | no |
+| <a name="input_eks_oidc_provider_arn"></a> [eks\_oidc\_provider\_arn](#input\_eks\_oidc\_provider\_arn) | The OpenID Connect identity provider ARN | `string` | `null` | no |
 | <a name="input_eks_worker_security_group_id"></a> [eks\_worker\_security\_group\_id](#input\_eks\_worker\_security\_group\_id) | EKS Worker Security group Id created by EKS module | `string` | `""` | no |
+| <a name="input_emr_on_eks_config"></a> [emr\_on\_eks\_config](#input\_emr\_on\_eks\_config) | EMR on EKS Helm configuration values | `any` | `{}` | no |
 | <a name="input_enable_adot_collector_haproxy"></a> [enable\_adot\_collector\_haproxy](#input\_enable\_adot\_collector\_haproxy) | Enable metrics for HAProxy workloads | `bool` | `false` | no |
 | <a name="input_enable_adot_collector_java"></a> [enable\_adot\_collector\_java](#input\_enable\_adot\_collector\_java) | Enable metrics for JMX workloads | `bool` | `false` | no |
 | <a name="input_enable_adot_collector_memcached"></a> [enable\_adot\_collector\_memcached](#input\_enable\_adot\_collector\_memcached) | Enable metrics for Memcached workloads | `bool` | `false` | no |
@@ -203,6 +208,7 @@
 | <a name="input_enable_coredns_cluster_proportional_autoscaler"></a> [enable\_coredns\_cluster\_proportional\_autoscaler](#input\_enable\_coredns\_cluster\_proportional\_autoscaler) | Enable cluster-proportional-autoscaler for CoreDNS | `bool` | `true` | no |
 | <a name="input_enable_crossplane"></a> [enable\_crossplane](#input\_enable\_crossplane) | Enable Crossplane add-on | `bool` | `false` | no |
 | <a name="input_enable_datadog_operator"></a> [enable\_datadog\_operator](#input\_enable\_datadog\_operator) | Enable Datadog Operator add-on | `bool` | `false` | no |
+| <a name="input_enable_emr_on_eks"></a> [enable\_emr\_on\_eks](#input\_enable\_emr\_on\_eks) | Enable EMR on EKS add-on | `bool` | `false` | no |
 | <a name="input_enable_external_dns"></a> [enable\_external\_dns](#input\_enable\_external\_dns) | External DNS add-on | `bool` | `false` | no |
 | <a name="input_enable_external_secrets"></a> [enable\_external\_secrets](#input\_enable\_external\_secrets) | Enable External Secrets operator add-on | `bool` | `false` | no |
 | <a name="input_enable_fargate_fluentbit"></a> [enable\_fargate\_fluentbit](#input\_enable\_fargate\_fluentbit) | Enable Fargate FluentBit add-on | `bool` | `false` | no |
@@ -319,5 +325,68 @@
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_adot_collector_haproxy"></a> [adot\_collector\_haproxy](#output\_adot\_collector\_haproxy) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_adot_collector_java"></a> [adot\_collector\_java](#output\_adot\_collector\_java) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_adot_collector_memcached"></a> [adot\_collector\_memcached](#output\_adot\_collector\_memcached) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_adot_collector_nginx"></a> [adot\_collector\_nginx](#output\_adot\_collector\_nginx) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_agones"></a> [agones](#output\_agones) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_airflow"></a> [airflow](#output\_airflow) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_appmesh_controller"></a> [appmesh\_controller](#output\_appmesh\_controller) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_argo_rollouts"></a> [argo\_rollouts](#output\_argo\_rollouts) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_argo_workflows"></a> [argo\_workflows](#output\_argo\_workflows) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_argocd"></a> [argocd](#output\_argocd) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_cloudwatch_metrics"></a> [aws\_cloudwatch\_metrics](#output\_aws\_cloudwatch\_metrics) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_coredns"></a> [aws\_coredns](#output\_aws\_coredns) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_ebs_csi_driver"></a> [aws\_ebs\_csi\_driver](#output\_aws\_ebs\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_efs_csi_driver"></a> [aws\_efs\_csi\_driver](#output\_aws\_efs\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_for_fluent_bit"></a> [aws\_for\_fluent\_bit](#output\_aws\_for\_fluent\_bit) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_fsx_csi_driver"></a> [aws\_fsx\_csi\_driver](#output\_aws\_fsx\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_kube_proxy"></a> [aws\_kube\_proxy](#output\_aws\_kube\_proxy) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_load_balancer_controller"></a> [aws\_load\_balancer\_controller](#output\_aws\_load\_balancer\_controller) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_node_termination_handler"></a> [aws\_node\_termination\_handler](#output\_aws\_node\_termination\_handler) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_privateca_issuer"></a> [aws\_privateca\_issuer](#output\_aws\_privateca\_issuer) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_aws_vpc_cni"></a> [aws\_vpc\_cni](#output\_aws\_vpc\_cni) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_calico"></a> [calico](#output\_calico) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_cert_manager"></a> [cert\_manager](#output\_cert\_manager) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_cert_manager_csi_driver"></a> [cert\_manager\_csi\_driver](#output\_cert\_manager\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_cert_manager_istio_csr"></a> [cert\_manager\_istio\_csr](#output\_cert\_manager\_istio\_csr) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_chaos_mesh"></a> [chaos\_mesh](#output\_chaos\_mesh) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_cilium"></a> [cilium](#output\_cilium) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_cluster_autoscaler"></a> [cluster\_autoscaler](#output\_cluster\_autoscaler) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_coredns_autoscaler"></a> [coredns\_autoscaler](#output\_coredns\_autoscaler) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_crossplane"></a> [crossplane](#output\_crossplane) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_csi_secrets_store_provider_aws"></a> [csi\_secrets\_store\_provider\_aws](#output\_csi\_secrets\_store\_provider\_aws) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_datadog_operator"></a> [datadog\_operator](#output\_datadog\_operator) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_emr_on_eks"></a> [emr\_on\_eks](#output\_emr\_on\_eks) | EMR on EKS |
+| <a name="output_external_dns"></a> [external\_dns](#output\_external\_dns) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_external_secrets"></a> [external\_secrets](#output\_external\_secrets) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_fargate_fluentbit"></a> [fargate\_fluentbit](#output\_fargate\_fluentbit) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_gatekeeper"></a> [gatekeeper](#output\_gatekeeper) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_grafana"></a> [grafana](#output\_grafana) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_ingress_nginx"></a> [ingress\_nginx](#output\_ingress\_nginx) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_karpenter"></a> [karpenter](#output\_karpenter) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_keda"></a> [keda](#output\_keda) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_kube_prometheus_stack"></a> [kube\_prometheus\_stack](#output\_kube\_prometheus\_stack) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_kubecost"></a> [kubecost](#output\_kubecost) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_kuberay_operator"></a> [kuberay\_operator](#output\_kuberay\_operator) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_kubernetes_dashboard"></a> [kubernetes\_dashboard](#output\_kubernetes\_dashboard) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_kyverno"></a> [kyverno](#output\_kyverno) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_local_volume_provisioner"></a> [local\_volume\_provisioner](#output\_local\_volume\_provisioner) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_metrics_server"></a> [metrics\_server](#output\_metrics\_server) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_nvidia_device_plugin"></a> [nvidia\_device\_plugin](#output\_nvidia\_device\_plugin) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_opentelemetry_operator"></a> [opentelemetry\_operator](#output\_opentelemetry\_operator) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_prometheus"></a> [prometheus](#output\_prometheus) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_promtail"></a> [promtail](#output\_promtail) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_reloader"></a> [reloader](#output\_reloader) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_secrets_store_csi_driver"></a> [secrets\_store\_csi\_driver](#output\_secrets\_store\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_smb_csi_driver"></a> [smb\_csi\_driver](#output\_smb\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_spark_history_server"></a> [spark\_history\_server](#output\_spark\_history\_server) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_spark_k8s_operator"></a> [spark\_k8s\_operator](#output\_spark\_k8s\_operator) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_strimzi_kafka_operator"></a> [strimzi\_kafka\_operator](#output\_strimzi\_kafka\_operator) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_traefik"></a> [traefik](#output\_traefik) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_velero"></a> [velero](#output\_velero) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_vpa"></a> [vpa](#output\_vpa) | Map of attributes of the Helm release and IRSA created |
+| <a name="output_yunikorn"></a> [yunikorn](#output\_yunikorn) | Map of attributes of the Helm release and IRSA created |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
