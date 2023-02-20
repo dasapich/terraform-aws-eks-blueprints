@@ -254,7 +254,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node-groups/" class="md-nav__link">
+      <a href="../../node-groups.md" class="md-nav__link">
         Node Groups
       </a>
     </li>
@@ -688,6 +688,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../consul/" class="md-nav__link">
+        Consul
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../crossplane/" class="md-nav__link">
         Crossplane
       </a>
@@ -886,6 +900,19 @@
   <a href="#upgrading-the-chart" class="md-nav__link">
     Upgrading the Chart
   </a>
+  
+    <nav class="md-nav" aria-label="Upgrading the Chart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gitops-configuration" class="md-nav__link">
+    GitOps Configuration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1156,6 +1183,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../thanos/" class="md-nav__link">
+        Thanos
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../traefik/" class="md-nav__link">
         Traefik
       </a>
@@ -1397,6 +1438,19 @@
     Upgrading the Chart
   </a>
   
+    <nav class="md-nav" aria-label="Upgrading the Chart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gitops-configuration" class="md-nav__link">
+    GitOps Configuration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1450,6 +1504,12 @@
 <h2 id="upgrading-the-chart">Upgrading the Chart<a class="headerlink" href="#upgrading-the-chart" title="Permanent link">&para;</a></h2>
 <p>Be aware that it is likely necessary to update the CRDs when updating the Chart version. Refer to the Project documentation on upgrades for your specific versions: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#upgrading-chart</p>
 <p>For complete project documentation, please visit the <a href="https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack">kube-prometheus-stack Github repository</a>.</p>
+<h3 id="gitops-configuration">GitOps Configuration<a class="headerlink" href="#gitops-configuration" title="Permanent link">&para;</a></h3>
+<p>The following properties are made available for use when managing the add-on via GitOps.</p>
+<div class="highlight"><pre><span></span><code>kubePrometheusStack = {
+  enable = true
+}
+</code></pre></div>
 
               
             </article>
