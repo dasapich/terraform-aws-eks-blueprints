@@ -60,13 +60,63 @@ module "eks_blueprints" {
   private_subnet_ids = module.vpc.private_subnets
 
   managed_node_groups = {
-    mg_5 = {
-      node_group_name = "managed-ondemand"
-      instance_types  = ["m5.large"]
-      min_size        = 3
-      max_size        = 3
+    # mg_5 = {
+    #   node_group_name = "managed-ondemand"
+    #   instance_types  = ["m5.large"]
+    #   min_size        = 3
+    #   max_size        = 3
+    #   desired_size    = 3
+    #   subnet_ids      = module.vpc.private_subnets
+    # }
+
+    bottlerocket_x86 = {
+      # 1> Node Group configuration - Part1
+      node_group_name        = "btl-x86"      # Max 40 characters for node group name
+      create_launch_template = true           # false will use the default launch template
+      launch_template_os     = "bottlerocket" # amazonlinux2eks or bottlerocket
+      public_ip              = false          # Use this to enable public IP for EC2 instances; only for public subnets used in launch templates ;
+      # 2> Node Group scaling configuration
       desired_size    = 3
-      subnet_ids      = module.vpc.private_subnets
+      max_size        = 5
+      min_size        = 2
+      max_unavailable = 1 # or percentage = 20
+
+      # 3> Node Group compute configuration
+      ami_type       = "BOTTLEROCKET_x86_64" # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64, CUSTOM, BOTTLEROCKET_ARM_64, BOTTLEROCKET_x86_64
+      capacity_type  = "ON_DEMAND"           # ON_DEMAND or SPOT
+      instance_types = ["m5.large"]          # List of instances to get capacity from multiple pools
+      block_device_mappings = [
+        {
+          device_name = "/dev/xvda"
+          volume_type = "gp3"
+          volume_size = 100
+        },
+        {
+          device_name = "/dev/xvdb"
+          volume_type = "gp3"
+          volume_size = 100
+        }
+      ]
+
+      # 4> Node Group network configuration
+      subnet_ids = [] # Defaults to private subnet-ids used by EKS Control plane. Define your private/public subnets list with comma separated subnet_ids  = ['subnet1','subnet2','subnet3']
+
+      k8s_taints = []
+
+      k8s_labels = {
+        Environment = "preprod"
+        Zone        = "dev"
+        WorkerType  = "ON_DEMAND"
+      }
+      additional_tags = {
+        ExtraTag    = "m5x-on-demand"
+        Name        = "m5x-on-demand"
+        subnet_type = "private"
+      }
+      launch_template_tags = {
+        SomeAwsProviderDefaultTag1: "TRUE"
+        SomeAwsProviderDefaultTag2: "TRUE"
+      }
     }
   }
 
@@ -116,10 +166,10 @@ module "eks_blueprints_kubernetes_addons" {
   enable_amazon_eks_aws_ebs_csi_driver = true
 
   # Add-ons
-  enable_aws_load_balancer_controller = false
-  enable_metrics_server               = false
-  enable_aws_cloudwatch_metrics       = false
-  enable_kubecost                     = false
+  enable_aws_load_balancer_controller = true
+  enable_metrics_server               = true
+  enable_aws_cloudwatch_metrics       = true
+  enable_kubecost                     = true
   enable_gatekeeper                   = false
 
   enable_cluster_autoscaler = false
